@@ -18,7 +18,7 @@ var userSchema = new mongoose.Schema({
     password: String,
     joined: {
         type: Date, default: Date.now
-    }, 
+    },
     rating: {
         type: Number,
         default: 0
@@ -56,7 +56,7 @@ userSchema.statics.list = function (callback) {
             callback(null, users);
         }
     });
-}
+};
 
 var User = mongoose.model('User', userSchema);
 var Rating = mongoose.model('Rating', ratingSchema);

@@ -6,11 +6,15 @@ var yelp = require("yelp").createClient({
 });
 
 
-var getHouses = function(city, range, max, callback) {
-  yelp.search({term: "bar", location: "Toronto"}, function(error, data) {
-  console.log(error);
-  console.log(data);
+var getstuff = function(array, callback) {
+  console.log('here');
+  yelp.search({term: "bar,club", location: "Toronto"}, function(error, data) {
+      console.log(data);
+  return callback(data);
 });
-
-
 };
+
+
+module.exports = {
+  getInfo: getstuff
+  };
