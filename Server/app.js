@@ -9,7 +9,8 @@ var mongoose = require('mongoose');
 var Cookies = require("cookies");
 var cookieParser = require('cookie-parser');
 var flash = require('connect-flash');
-var ejs = require('ejs');
+var favicon = require('serve-favicon');
+
 // mongoose.connect("mongodb://localhost/test");
 
 
@@ -17,7 +18,8 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));

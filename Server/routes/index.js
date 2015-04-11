@@ -8,7 +8,7 @@ var rating = require('../models/user').rmodel;
 module.exports = function(app, passport) {
   var locArray; // 0 is Location, 1 is range, 2 is max
 
-  // app.use('/public', express.static('./public'));
+  app.use('/public', express.static('./public'));
 
 
   app.get('/loc/:id', function(req, res) {
@@ -29,30 +29,47 @@ module.exports = function(app, passport) {
   });
 
   app.get('/', function(req, res, next) {
-    if (req.user) {
-      req.session.userName = req.user.username;
-    }
-    res.render('index', {
-      user: req.user
-    });
+    res.render('landing');
   });
 
   app.get('/login', function(req, res, next) {
-    res.render('login', {
-      message: req.flash('message')
-    });
+    console.log('here pal');
+    res.render('facebooklogin');
   });
+  
+  app.get('/profile', isLoggedIn, function(req, res) {
+         res.render('profile', {
+             user : req.user // get the user out of session and pass to template
+         });
+     });
+// =====================================
+// FACEBOOK ROUTES =====================
+// =====================================
+// route for facebook authentication and login
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
+// handle the callback after facebook has authenticated the user
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+        successRedirect : '/profile',
+        failureRedirect : '/'
+    }));
+
+// route for logging out
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
 };
 
-var isAuthenticated = function(req, res, next) {
-  console.log("home?");
-  // check if user is authenticated
-  if (req.isAuthenticated()) {
-    console.log('isAuthenticated');
+// route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+
+// if user is authenticated in the session, carry on
+if (req.isAuthenticated())
     return next();
-  }
 
-  // if not authenticated, then redirect to login page
-
-  res.redirect('/login');
-};
+// if they aren't redirect them to the home page
+res.redirect('/');
+}
