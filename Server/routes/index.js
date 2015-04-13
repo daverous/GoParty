@@ -4,7 +4,7 @@ var dbManager = require('../js/db');
 var user = require('../models/user').model;
 var rating = require('../models/user').rmodel;
 
-
+// https://scotch.io/tutorials/easy-node-authentication-facebook
 module.exports = function(app, passport) {
   var locArray; // 0 is Location, 1 is range, 2 is max
 
@@ -28,15 +28,13 @@ module.exports = function(app, passport) {
 
   });
 
-  app.get('/', function(req, res, next) {
-    res.render('landing');
-  });
+
 
   app.get('/login', function(req, res, next) {
     console.log('here pal');
     res.render('facebooklogin');
   });
-  
+
   app.get('/profile', isLoggedIn, function(req, res) {
          res.render('profile', {
              user : req.user // get the user out of session and pass to template
@@ -55,11 +53,18 @@ app.get('/auth/facebook/callback',
         failureRedirect : '/'
     }));
 
+app.get('/geo', function(req, res) {
+  res.render('geo');
+});
 // route for logging out
 app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
 });
+
+// app.get('/', function(req, res, next) {
+//   res.render('landing');
+// });
 
 };
 

@@ -7,6 +7,7 @@ FB.api('fql', {
     'SELECT uid FROM user WHERE uid=me()',
     'SELECT name FROM user WHERE uid=me()'
   ]
+  // method: 'get', relative_url: 'me/friends?limit=50' },
 }, function(res) {
   if (!res || res.error) {
     console.log(!res ? 'error occurred' : res.error);
