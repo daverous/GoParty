@@ -2,12 +2,12 @@ var mongoose = require('mongoose');
 var userSchema = require('./user');
 
 var placeRatingSchema = new mongoose.Schema({
-  rated_friend: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Venue'
+  rated_user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
   },
   rating: {
-    type: Number
+      type: Number
   }
 });
 
@@ -15,6 +15,9 @@ var venueSchema = new mongoose.Schema({
   name: String,
   latitude: String,
   longditude: String,
+  description: String,
+  yelpId : String,
+  url : String,
   added: {
     type: Date,
     default: Date.now
@@ -26,9 +29,9 @@ var venueSchema = new mongoose.Schema({
   evaluations: {
     type: Number,
     default: 0
-  },
+  }
   // TODO this will be for the users.
-  _attending: [userSchema],
+  // _attending: [userSchema],
   // _friends: [{
   //     _id: { type: mongoose.Schema.ObjectId, ref: 'User' },
   //     firstName : { type: String, ref: 'User'},
@@ -39,25 +42,27 @@ var venueSchema = new mongoose.Schema({
   //     evaluations: {type: Number, default: 0, ref: 'User'},
   //     deleted: {type: Boolean, default: false}
   // }],
-  _ratings: [ratingSchema]
+  // _ratings: [placeRatingSchema]
 });
 
 venueSchema.statics.list = function(callback) {
-  this.find({}, function(err, users) {
+  this.find({}, function(err, venues) {
     if (err) {
       return (err, null);
     } else {
-      callback(null, users);
+      callback(null, venues);
     }
   });
 };
 
-var User = mongoose.model('User', userSchema);
-var Rating = mongoose.model('Rating', ratingSchema);
+
+
+var Venue = mongoose.model('Venue', venueSchema);
+var PlaceRating = mongoose.model('PlaceRating', placeRatingSchema);
 
 module.exports = {
-  schema: userSchema,
-  model: User,
-  rschema: ratingSchema,
-  rmodel: Rating
+  scheme: venueSchema,
+  model: Venue,
+  rschema: placeRatingSchema,
+  rmodel: PlaceRating
 };
