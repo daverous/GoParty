@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var dbManager = require('../js/db');
 var user = require('../models/user').model;
+var graph = require('fbgraph');
+var settings = require('../js/settings');
 var venue = require('../models/venue').model;
 var rating = require('../models/user').rmodel;
 
@@ -11,6 +13,9 @@ module.exports = function(app, passport) {
 
   app.use('/public', express.static('./public'));
 
+  app.get('/', function(req, res) {
+    res.render('home');
+  });
   app.get('/listvenues', function(req, res) {
     console.log('here');
     venue.list(function(err, venues) {
@@ -40,7 +45,7 @@ module.exports = function(app, passport) {
 
 
 
-  app.get('/login', function(req, res, next) {
+  app.get('/login', function(req, res) {
     console.log('here pal');
     res.render('facebooklogin');
   });
@@ -62,6 +67,17 @@ module.exports = function(app, passport) {
       successRedirect: '/profile',
       failureRedirect: '/'
     }));
+    
+    app.get('/friendlist', function(req, res) {
+    graph.setAccessToken(req.session.access_token).setOptions({ timeout: 3000, pool: { maxSockets: Infinity }, headers: {connection: 'keep-alive'} }).get('/me/friends?fields=picture,first_name,last_name', function(err, fbRes) {
+        res.send({friends: fbRes.data});
+        for (var i = 0; i< fbRes.data.length; i++) {
+          user.findOne({
+//            TODO look at responses from facebook
+          })
+        }
+    });
+});
 
   app.get('/geo', function(req, res) {
     res.render('geo');
@@ -70,6 +86,10 @@ module.exports = function(app, passport) {
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
+  });
+  
+  app.get('/home', function(req, res) {
+    res.render('home');
   });
 
   app.get('*', function(req, res) {

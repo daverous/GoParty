@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var userSchema = require('./user');
+var User = require('./user');
 
 var placeRatingSchema = new mongoose.Schema({
   rated_user: {
@@ -7,12 +7,16 @@ var placeRatingSchema = new mongoose.Schema({
       ref: 'User'
   },
   rating: {
-      type: Number
+      line: Number, // clock
+      price: Number, //  dolla dolla sign
+      music: Number, // music note for
+      ambiance: Number // smily face
   }
 });
 
 var venueSchema = new mongoose.Schema({
   name: String,
+  genre: String,
   latitude: String,
   longditude: String,
   description: String,
@@ -29,6 +33,12 @@ var venueSchema = new mongoose.Schema({
   evaluations: {
     type: Number,
     default: 0
+  },
+  // attending : {
+  //   type: [userSchema]
+  // },
+  open : {
+    type : [Boolean]
   }
   // TODO this will be for the users.
   // _attending: [userSchema],

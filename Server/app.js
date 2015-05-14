@@ -6,13 +6,21 @@ var passport = require('passport');
 var bodyParser = require('body-parser');
 var express_session = require('express-session');
 var mongoose = require('mongoose');
+var settings = require('./js/settings');
 var Cookies = require("cookies");
 var cookieParser = require('cookie-parser');
 var flash = require('connect-flash');
 var favicon = require('serve-favicon');
 
 // mongoose.connect("mongodb://localhost/test");
-
+var config = {
+    APP_ID: process.env.APP_ID || settings.APP_ID,
+    APP_SECRET: process.env.APP_SECRET || settings.APP_SECRET,
+    APP_URL: process.env.APP_URL || settings.APP_URL,
+    SCOPE: '',
+    SECRET: process.env.SECRET || settings.SECRET,
+    PORT: process.env.PORT || 3000
+};
 
 var app = express();
 
@@ -48,8 +56,10 @@ require('./routes/index.js')(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+    console.log('hereadasda');
     var err = new Error('Not Found');
     err.status = 404;
+//    maybe render error here? 
     next(err);
 });
 
@@ -69,4 +79,7 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
 });
 
-app.listen(8080);
+app.listen(config.PORT, function() {
+    console.log('Express server running on port ' + config.PORT);
+});
+
