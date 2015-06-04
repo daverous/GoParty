@@ -68,6 +68,20 @@ module.exports = function(app, passport) {
       failureRedirect: '/'
     }));
     
+    
+//    RESTFUL API will create event, based on name, description, 
+// lat long etc (can be seen in model )
+   app.post('/createEvent',
+   function(req, res) {
+//     TODO need to ensure authentication here
+// Could potentially be done using SESSION? OR cookie? 
+     var unName = req.body.name;
+     var unDescription = req.body.description;
+     var unLocation = req.body.location; //THIS SHOULD BE PRIMARY key of venue
+     var isPrivate = req.body.private; //boolean on if event is private
+     var unOwner = req.body.owner; // Maybe check auth here too? 
+     
+   });
     app.get('/friendlist', function(req, res) {
     graph.setAccessToken(req.session.access_token).setOptions({ timeout: 3000, pool: { maxSockets: Infinity }, headers: {connection: 'keep-alive'} }).get('/me/friends?fields=picture,first_name,last_name', function(err, fbRes) {
         res.send({friends: fbRes.data});

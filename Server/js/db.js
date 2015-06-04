@@ -1,6 +1,7 @@
 var VenueProfile = require('../models/venue').model;
+var EventProfile = require('../models/event').model
 
-var settings = require('./js/settings');
+var settings = require('./settings');
 
 //yelp data
 var yelp = require("yelp").createClient({
@@ -20,6 +21,12 @@ var getstuff = function(array, callback) {
     parse(data, callback);
   });
 };
+
+// Function to create new event
+// function takes in params of construction for EventScema
+function addEvent(obj, callback) {
+  
+}
 
 
 function parse(obj, callback) {
@@ -90,7 +97,7 @@ function parse(obj, callback) {
     return null;
 }
 
-
+//TODO, add feature where you give money ahead of time, which gaurantees people turn up and means they get the best thing.
 
 module.exports = {
   getInfo: getstuff

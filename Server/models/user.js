@@ -5,15 +5,21 @@ var ratingSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     },
+    notAttendingRating: {
+        type: Number // flake points
+    },
     rating: {
-        type: Number
+        type: Number // Percentage of yes no, how was your night. The host has overview of everyone who attended, and thumbs up, thumbs down.
+        // bad ratings need reason
+        
+       
     }
 });
-
+ // scan users on entry. 
 var userSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
-    email: String,
+    email: String, // required correspondance.
     username: String,
     password: String,
     joined: {
