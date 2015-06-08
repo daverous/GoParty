@@ -1,12 +1,12 @@
 1. Build Backend models to handle Users, Events, interface with YELP and Facebook APIs. (Trivial mongodb initially)
 
 1.1 Make RESTful API to correctly relay data between each client and each server.
-1. 
+
 
 
 2. Start implementing basic responsive web view 
 
-2.2 different users need different interface: E.G. club owner and bouncers need different views to club goers.
+2.1 different users need different interface: E.G. club owner and bouncers need different views to club goers.
 
 
 #Rating system works with either a thumbs up or thumbs down system.
@@ -18,6 +18,11 @@
  * Good guests will occasionally get rewards from clubs (or from GoParty itself) where bad goers will be Blacklisted.
  
  
+ #Authentication
+
+ Facebook will be required for authentication, for real name and basic details such as age. 
+
+ Will ask user if details he enters on facebook are correct. If not, deal with this later. __LOOK AT LEGALITY OF FORCING AGE CHECKS?__
  
  
  #Events

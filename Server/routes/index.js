@@ -66,7 +66,10 @@ module.exports = function(app, passport) {
     passport.authenticate('facebook', {
       successRedirect: '/profile',
       failureRedirect: '/'
-    }));
+    }), function(req,res){
+//      TODO get user from passport here
+      req.session.user = req.user; //store user obj in session
+    });
     
     
 //    RESTFUL API will create event, based on name, description, 
@@ -83,7 +86,7 @@ module.exports = function(app, passport) {
      
    });
     app.get('/friendlist', function(req, res) {
-    graph.setAccessToken(req.session.access_token).setOptions({ timeout: 3000, pool: { maxSockets: Infinity }, headers: {connection: 'keep-alive'} }).get('/me/friends?fields=picture,first_name,last_name', function(err, fbRes) {
+    graph.setAccessToken(req.session.user.token).setOptions({ timeout: 3000, pool: { maxSockets: Infinity }, headers: {connection: 'keep-alive'} }).get('/me/friends?fields=picture,first_name,last_name', function(err, fbRes) {
         res.send({friends: fbRes.data});
         for (var i = 0; i< fbRes.data.length; i++) {
           user.findOne({
@@ -96,6 +99,7 @@ module.exports = function(app, passport) {
   app.get('/geo', function(req, res) {
     res.render('geo');
   });
+  
   // route for logging out
   app.get('/logout', function(req, res) {
     req.logout();
@@ -118,7 +122,6 @@ module.exports = function(app, passport) {
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
-
   // if user is authenticated in the session, carry on
   if (req.isAuthenticated())
     return next();

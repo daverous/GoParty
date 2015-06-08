@@ -1,168 +1,102 @@
-var bCrypt = require('bcrypt-nodejs');
-var PassportLocalStrategy = require('passport-local').Strategy;
-var UserProfile = require('../models/user').model;
-
+var FacebookStrategy = require('passport-facebook').Strategy;
+var User       = require('../models/user');
+var configAuth = require('../config/facebookauth'); // use this one for testing
 module.exports = function(passport) {
+  
+   // =========================================================================
+    // passport session setup ==================================================
+    // =========================================================================
+    // required for persistent login sessions
+    // passport needs ability to serialize and unserialize users out of session
 
-  var editUser = function(req, done) {
-    UserProfile.findOneAndUpdate({
-      _id: req.body.id
-    }, {
-      $set: {
-        lastname: req.body.lastname,
-        username: req.body.username,
-        email: req.body.email
-
-        // Path to folder where images for house are stored
-        //TODO update picture
-      }
-    }, function(err, update) {
-      if (err) {
-        throw (err);
-      } else if (update === null) {
-        throw new Error('user cannot be found');
-      }
-      update.save();
+    // used to serialize the user for the session
+    passport.serializeUser(function(user, done) {
+        done(null, user.id);
     });
-  };
-  // verify password
-  var verifyPassword = function(user, password) {
-    return bCrypt.compareSync(password, user.password);
-  };
 
-  // encrypt password
-  var createHash = function(password) {
-    return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-  };
-
-  // serialize a user
-  passport.serializeUser(function(user, done) {
-    console.log('serializing user: ', user);
-    done(null, user._id);
-  });
-
-
-  // FOR SIGNOUT res.clearCookie('username');
-
-  // deserialize a user
-  passport.deserializeUser(function(id, done) {
-    UserProfile.findById(id, function(err, user) {
-      console.log('deserializing user: ', user);
-      done(err, user);
+    // used to deserialize the user
+    passport.deserializeUser(function(id, done) {
+        User.findById(id, function(err, user) {
+            done(err, user);
+        });
     });
-  });
+    
+       // =========================================================================
+    // FACEBOOK ================================================================
+    // =========================================================================
+    passport.use(new FacebookStrategy({
 
-  passport.use('login', new PassportLocalStrategy({
-      passReqToCallback: true
+        clientID        : configAuth.facebookAuth.clientID,
+        clientSecret    : configAuth.facebookAuth.clientSecret,
+        callbackURL     : configAuth.facebookAuth.callbackURL,
+        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+
     },
-    function(req, username, password, done) {
-      UserProfile.findOne({
-          'username': username
-        },
-        function(err, user) {
-          if (err) {
-            return done(err);
-          }
+    function(req, token, refreshToken, profile, done) {
 
-          // check if user already exists
-          if (!user) {
-            console.log('Error: Username does not exist ' + username);
-            return done(null, false, req.flash('message', 'Error: Username not found'));
-          }
+        // asynchronous
+        process.nextTick(function() {
 
-          // verify is the password is valid
-          if (!verifyPassword(user, password)) {
-            console.log('Error: Invalid password');
-            return done(null, false, req.flash('message', 'Error: Invalid password'));
-          }
-          return done(null, user);
-        }
-      );
+            // check if the user is already logged in
+            if (!req.user) {
 
-    }));
+                User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+                    if (err)
+                        return done(err);
 
-  passport.use('register', new PassportLocalStrategy({
-      passReqToCallback: true
-    },
-    function(req, username, password, done) {
+                    if (user) {
 
-      findOrCreateUser = function() {
-        // search in database using username
-        UserProfile.findOne({
-          'username': username
-        }, function(err, user) {
-          if (err) {
-            console.log('Error (in login): ' + err);
-            return done(err);
-          }
+                        // if there is a user id already but no token (user was linked at one point and then removed)
+                        if (!user.facebook.token) {
+                            user.facebook.token = token;
+                            user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
+                            user.facebook.email = (profile.emails[0].value || '').toLowerCase();
 
-          if (!user) {
-            // create a new user profile
-            if (password != req.param('confirmPassword')) {
-              console.log('Error (passwords do not match): ' + username);
-              return done(null, false, req.flash('message', 'Error: Passwords do not match'));
+                            user.save(function(err) {
+                                if (err)
+                                    return done(err);
+                                    
+                                return done(null, user);
+                            });
+                        }
+
+                        return done(null, user); // user found, return that user
+                    } else {
+                        // if there is no user, create them
+                        var newUser            = new User();
+
+                        newUser.facebook.id    = profile.id;
+                        newUser.facebook.token = token;
+                        newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
+                        newUser.facebook.email = (profile.emails[0].value || '').toLowerCase();
+
+                        newUser.save(function(err) {
+                            if (err)
+                                return done(err);
+                                
+                            return done(null, newUser);
+                        });
+                    }
+                });
+
+            } else {
+                // user already exists and is logged in, we have to link accounts
+                var user            = req.user; // pull the user out of the session
+
+                user.facebook.id    = profile.id;
+                user.facebook.token = token;
+                user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
+                user.facebook.email = (profile.emails[0].value || '').toLowerCase();
+
+                user.save(function(err) {
+                    if (err)
+                        return done(err);
+                        
+                    return done(null, user);
+                });
+
             }
-
-            var createUser = new UserProfile();
-            createUser.username = username;
-            createUser.email = req.param('email');
-            createUser.firstName = req.param('fName');
-            createUser.lastName = req.param('lName');
-            createUser.password = createHash(password);
-
-            // add the user to the database
-            createUser.save(function(err) {
-              if (err) {
-                console.log('Error (could not save): ' + err);
-                throw err;
-              }
-              console.log('Added user succesfully');
-              return done(null, createUser);
-            });
-          } else {
-            // if username exists in database
-            console.log('Error (user exists): ' + username);
-            return done(null, false, req.flash('message', 'Error: Username has been taken'));
-          }
         });
-      };
 
-      process.nextTick(findOrCreateUser);
-    }));
-
-  passport.use('editUser', new PassportLocalStrategy({
-      passReqToCallback: true
-    },
-    function(req, username, password, done) {
-
-      editUser = function() {
-        // search in database using username
-        UserProfile.findOneAndUpdate({
-          'username': username
-        }, {
-          $set: {
-            username: req.body.username,
-            email: req.body.email,
-            firstName: req.body.fName,
-            lastName: req.body.lName
-          }
-        }, function(err, user) {
-          if (err) {
-            console.log('Error (in login): ' + err);
-            return done(err);
-          }
-
-          if (!user) {
-            // create a new user profile
-            console.log("error - user not found");
-          } else {
-            // if username exists in database
-            console.log('Error (user exists): ' + username);
-            return done(null, false, req.flash('message', 'Error: Username has been taken'));
-          }
-        });
-      };
-
-      process.nextTick(findOrCreateUser);
     }));
 };

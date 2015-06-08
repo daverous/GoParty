@@ -18,6 +18,7 @@ var venueSchema = new mongoose.Schema({
   name: String,
   genre: String,
   latitude: String,
+  privateVenue : Boolean,
   longditude: String,
   description: String,
   yelpId : String,

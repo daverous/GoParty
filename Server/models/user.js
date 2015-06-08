@@ -17,6 +17,12 @@ var ratingSchema = new mongoose.Schema({
 });
  // scan users on entry. 
 var userSchema = new mongoose.Schema({
+    facebook         : {
+        id           : String,
+        token        : String,
+        email        : String,
+        name         : String
+    },
     firstName: String,
     lastName: String,
     email: String, // required correspondance.
@@ -57,6 +63,11 @@ userSchema.statics.list = function (callback) {
             callback(null, users);
         }
     });
+};
+
+// generating a hash
+userSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
 var User = mongoose.model('User', userSchema);
