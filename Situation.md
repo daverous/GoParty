@@ -18,14 +18,14 @@
  * Good guests will occasionally get rewards from clubs (or from GoParty itself) where bad goers will be Blacklisted.
  
  
- #Authentication
+#Authentication
 
  Facebook will be required for authentication, for real name and basic details such as age. 
 
  Will ask user if details he enters on facebook are correct. If not, deal with this later. __LOOK AT LEGALITY OF FORCING AGE CHECKS?__
  
  
- #Events
+#Events
  
  * Events can be either public, private, or invitees can also invite.
  
@@ -37,7 +37,7 @@
  
  
  
- #Cost 
+#Cost 
  * Initially, this will __NOT BE TIERED__. ONE PRICE FOR ALL.
  
  * A event can have a price.
@@ -51,7 +51,7 @@
  * Initially, __NO STAKE IS TAKEN BY ANY PARTY OTHER THAN OWNER OF EVENT__
  
 
- #Clubs
+#Clubs
  
   * Clubs can use GoParty to help aleivate queues due to time taken paying, and also pre checks age. (ID's still checked at door)
 
@@ -60,7 +60,7 @@
  * Clubs get special version of the app which has a barcode scanner to scan each users 'ticket'.
  
  
- #Funding
+#Funding
  
  * Initially, the application will be funded purely through advertising. An example of this is clubs would pay and then get a higher preference in search results when compared to other clubs. 
  
@@ -71,7 +71,7 @@
  
  
  
- #Components
+#Components
  
  
 ##Models
