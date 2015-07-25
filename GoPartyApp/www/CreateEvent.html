@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel="stylesheet" type="text/css" href="icon-fonts/elusive-icons-2.0.0/css/elusive-icons.css">
+    <link rel="stylesheet" type="text/css" href="ionic/css/ionic.min.css">
+    <link rel="stylesheet" type="text/css" href="css/CreateEvent_main.less.css" class="main-less">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+    <script src="intelxdk.js"></script>
+    <script src="cordova.js"></script>
+    <script src="xhr.js"></script>
+    <script src="xdk/init-dev.js"></script>
+    <script type="application/javascript" src="ionic/js/ionic.bundle.js"></script>
+    <script type="application/javascript" src="js/CreateEvent_init_services.js"></script>
+    <script type="application/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+    <script type="application/javascript" src="lib/jquery.min.js"></script>
+    <script type="application/javascript" src="google_maps/google_maps.js"></script>
+    <script type="application/javascript" src="marginal/marginal-position.js"></script>
+    <script type="application/javascript" src="sidebar/js/hammer.js"></script>
+    <script type="application/javascript" src="sidebar/js/jquery.hammer.js"></script>
+    <script type="application/javascript" src="sidebar/js/swipe-hammer.js"></script>
+    <script type="application/javascript" src="sidebar/js/sidebar.js"></script>
+    <script type="application/javascript" src="js/CreateEvent_user_scripts.js"></script>
+    <script type="application/javascript" src="js/CreateEvent_uib_w_13_modal.js"></script>
+  </head>
+
+  <body ng-app="myApp">
+
+    <div class="upage" id="mainpage">
+
+      <div class="upage-outer">
+
+        <ion-header-bar class="bar inner-element uib_w_2 bar-positive bar-header" data-uib="ionic/header" data-ver="0">
+          <div class="buttons widget-container content-area horiz-area wrapping-col"></div>
+          <h1 class="title">Create New Event</h1>
+          <div class="buttons widget-container content-area horiz-area wrapping-col"></div>
+        </ion-header-bar>
+
+        <div class="inner-element uib_w_13 uib_sidebar leftbar bar-bg thumb-bg bar-gutter" data-uib="layout/left_sidebar" data-ver="1" data-anim="{'style':'overlap', 'v':200, 'side':'left', 'dur':200, 'io':true}">
+          <div class="sidebar-content content-area vertical-col">
+
+            <ion-list class="widget uib_w_14 d-margins" data-uib="ionic/list" data-ver="0">
+              <ion-item class="item widget uib_w_15" data-uib="ionic/list_item" data-ver="0">My Events</ion-item>
+              <ion-item class="item widget uib_w_16" data-uib="ionic/list_item" data-ver="0" href="/CreateEvent">Create Event</ion-item>
+              <ion-item class="item widget uib_w_17" data-uib="ionic/list_item" data-ver="0">List item</ion-item>
+            </ion-list>
+          </div>
+        </div>
+        <div id="PictureUpload" class="upage-content vertical-col left hidden"></div>
+      </div>
+
+    </div>
+  </body>
+
+</html>

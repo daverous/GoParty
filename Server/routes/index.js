@@ -71,6 +71,14 @@ module.exports = function(app, passport) {
       req.session.user = req.user; //store user obj in session
     });
     
+    // RESTful API to get all events that a user has currently agreed to go to
+    
+    app.post('/userInfo' , 
+      function(req, res) {
+        dbManager
+        
+      });
+    
     
 //    RESTFUL API will create event, based on name, description, 
 // lat long etc (can be seen in model )
@@ -107,16 +115,17 @@ module.exports = function(app, passport) {
   });
   
   app.get('/home', function(req, res) {
-    res.render('home');
+    console.log('here');
+    res.render('notfound');
   });
 
   app.get('*', function(req, res) {
     res.render('notfound', 404);
   });
 
-  // app.get('/', function(req, res, next) {
-  //   res.render('landing');
-  // });
+  app.get('/', function(req, res, next) {
+    res.render('home');
+  });
 
 };
 

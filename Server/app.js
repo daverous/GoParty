@@ -54,15 +54,6 @@ authenticate(passport);
 
 require('./routes/index.js')(app, passport);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    console.log('hereadasda');
-    var err = new Error('Not Found');
-    err.status = 404;
-//    maybe render error here? 
-    next(err);
-});
-
 // error handlers
 
 // development error handler

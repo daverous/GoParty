@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 //var user = require('user');
-var venue = require('venue');
+var venue = require('./venue');
 
 var EventSchema = new mongoose.Schema({
   name: String,
@@ -15,4 +15,8 @@ var EventSchema = new mongoose.Schema({
   arrived : [String] // Stores primary key of party goers that have already arrived. 
 });
 
+module.exports = {
+    schema: EventSchema,
+    model: Event
+};
 //

@@ -1,5 +1,6 @@
 var VenueProfile = require('../models/venue').model;
-var EventProfile = require('../models/event').model
+var EventProfile = require('../models/event').model;
+var UserProfile = require('../models/user').model;
 
 var settings = require('./settings');
 
@@ -11,6 +12,28 @@ var yelp = require("yelp").createClient({
   token_secret: settings.YELP_TOKEN_SECRET
 });
 
+var getUsersEvents = function(userIn, callback) {
+  UserProfile.findOne({
+          _id: userIn.id
+        },
+        function(err, user) {
+         
+         if (err) {
+           callback(err);
+         }
+         else if (!user) {
+           // If user does not exist, tell them
+           callback("No User");
+         } 
+         else  {
+           var events = [];
+           for (ev in user.events) {
+             // TODO append events to this list
+           }
+         }
+         
+        })
+};
 
 var getstuff = function(array, callback) {
   console.log('here');

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+var event = require('models/event.js')
 var ratingSchema = new mongoose.Schema({
     rated_friend: {
         type: mongoose.Schema.ObjectId,
@@ -39,6 +39,11 @@ var userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    // Events that the user has agreed to. 
+    events : [{
+        _id: {type : event.schema.ObjectId}
+    }],
+    
     _friends: [{
         _id: { type: mongoose.Schema.ObjectId, ref: 'User' },
         firstName : { type: String, ref: 'User'},
