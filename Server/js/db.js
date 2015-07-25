@@ -27,9 +27,10 @@ var getUsersEvents = function(userIn, callback) {
          } 
          else  {
            var events = [];
-           for (ev in user.events) {
-             // TODO append events to this list
+           for (var ev in user.events) {
+            events.push(ev);
            }
+           callback(events);
          }
          
         })

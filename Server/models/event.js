@@ -1,18 +1,18 @@
 var mongoose = require('mongoose');
-//var user = require('user');
+var UserSchema = require('./user').schema;
 var venue = require('./venue');
 
 var EventSchema = new mongoose.Schema({
   name: String,
   description: String,
-  location : String, //should be primary key of desired venue
+  location : venue.schema.id, //should be primary key of desired venue
   isPrivate : Boolean,
-  owner : String, // primary key of User hat is OWNER
+  owner : UserSchema._id, // primary key of User hat is OWNER
   cost : Number,
   maxAttending : Number,
-  invited : [String],
-  attending : [String], // primary key of every user attending
-  arrived : [String] // Stores primary key of party goers that have already arrived. 
+  invited : [UserSchema._id],
+  attending : [UserSchema._id], // primary key of every user attending
+  arrived : [UserSchema._id] // Stores primary key of party goers that have already arrived. 
 });
 
 module.exports = {
