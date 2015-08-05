@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var User = require('./user');
+var User = require('./partier');
 
 
 var placeRatingSchema = new mongoose.Schema({
