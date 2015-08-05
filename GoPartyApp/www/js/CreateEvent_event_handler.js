@@ -7,7 +7,15 @@
  function register_event_handlers()
  {
     
-    
+    $(listv).on("click", function(event) {
+        $(list).style.display = 'block';
+        $(gmaps).style.display = 'hidden';
+    });
+     
+     $(mapv).on("click", function(event) {
+        $(gmaps).style.display = 'block';
+        $(list).style.display = 'hidden';
+    });
      /* button  Save */
     $(document).on("click", ".uib_w_11", function(evt)
     {

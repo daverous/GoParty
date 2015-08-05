@@ -1,5 +1,9 @@
+/* global bcrypt */
 var mongoose = require('mongoose');
-var event = require('models/event.js')
+var event = require('./event');
+
+console.log("here" + event);
+
 var ratingSchema = new mongoose.Schema({
     rated_friend: {
         type: mongoose.Schema.ObjectId,
@@ -17,6 +21,7 @@ var ratingSchema = new mongoose.Schema({
 });
  // scan users on entry. 
 var userSchema = new mongoose.Schema({
+    _id : Number,
     facebook         : {
         id           : String,
         token        : String,

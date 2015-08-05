@@ -1,3 +1,5 @@
+/* global process */
+/* global __dirname */
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -12,7 +14,9 @@ var cookieParser = require('cookie-parser');
 var flash = require('connect-flash');
 var favicon = require('serve-favicon');
 
-// mongoose.connect("mongodb://localhost/test");
+
+// TODO deal with mongoose 
+mongoose.connect("mongodb://localhost/test");
 var config = {
     APP_ID: process.env.APP_ID || settings.APP_ID,
     APP_SECRET: process.env.APP_SECRET || settings.APP_SECRET,

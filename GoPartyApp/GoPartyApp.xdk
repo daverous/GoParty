@@ -6,7 +6,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "appDesigner",
       "projectGuid": "92383f46-b520-44bd-9afb-72c31df01cd8",
-      "lastModifiedDate": 1436617208353,
+      "lastModifiedDate": 1438795358094,
       "creationDate": 1435398826446
     },
     "XDK-app-designer": "true",
@@ -82,6 +82,33 @@
       {
         "id": "org.apache.cordova.network-information",
         "version": "0.2.14",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {},
+        "dependsOn": [],
+        "dependedBy": []
+      },
+      {
+        "id": "org.apache.cordova.battery-status",
+        "version": "0.2.12",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {},
+        "dependsOn": [],
+        "dependedBy": []
+      },
+      {
+        "id": "org.apache.cordova.dialogs",
+        "version": "0.2.11",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {},
+        "dependsOn": [],
+        "dependedBy": []
+      },
+      {
+        "id": "org.apache.cordova.vibration",
+        "version": "0.3.12",
         "selectedState": "Included",
         "data": {},
         "paramvals": {},
