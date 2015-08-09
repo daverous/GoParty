@@ -19,7 +19,7 @@ var ratingSchema = new mongoose.Schema({
 });
  // scan users on entry. 
 var userSchema = new mongoose.Schema({
-    id : mongoose.Schema.ObjectID,
+    _id : mongoose.Schema.ObjectId,
     facebook         : {
         id           : String,
         token        : String,
@@ -44,7 +44,7 @@ var userSchema = new mongoose.Schema({
     },
     // Events that the user has agreed to. 
     events : [{
-        _id: {type : event.schema.ObjectId}
+        _id: {type : mongoose.Schema.ObjectId}
     }],
     
     _friends: [{

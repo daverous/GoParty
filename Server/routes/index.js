@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var dbManager = require('../js/db');
-var User = require('../models/user').model;
+var User = require('../models/partier').model;
 var Event = require('../models/event').model
 var graph = require('fbgraph');
-var settings = require('../js/settings');
+var settings = require('../config/settings');
 var Venue = require('../models/venue').model;
 // var rating = require('../models/user').rmodel;
 

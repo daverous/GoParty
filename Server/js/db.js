@@ -1,8 +1,8 @@
 var VenueProfile = require('../models/venue').model;
 var EventProfile = require('../models/event').model;
-var UserProfile = require('../models/user').model;
+var UserProfile = require('../models/partier').model;
 
-var settings = require('./config/settings');
+var settings = require('../config/settings');
 
 //yelp data
 var yelp = require("yelp").createClient({

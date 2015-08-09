@@ -16,7 +16,7 @@ var placeRatingSchema = new mongoose.Schema({
 });
 
 var venueSchema = new mongoose.Schema({
-  id: Number,
+  _id: mongoose.Schema.ObjectId,
   name: String,
   genre: String,
   latitude: String,
